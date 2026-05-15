@@ -13,102 +13,33 @@
     overflow: hidden;
   }
 
-  /* XP window outer frame */
+  /* Container for the XP window image */
   .window {
-    width: 700px;
-    height: 480px;
-    background: #ffffff;
-    border: 2px solid #0a246a;
-    box-shadow: 0 0 0 3px #3a6ea5, 6px 6px 0px rgba(0,0,0,0.4);
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    width: 700px;       /* ajusta segons la mida real */
+    height: auto;
   }
 
-  /* Title bar */
-  .titlebar {
-    height: 30px;
-    background: linear-gradient(to bottom, #1f5ab7, #174a96);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 6px;
-    color: white;
-    font-weight: bold;
-    font-size: 14px;
-    border-bottom: 1px solid #0a246a;
-  }
-
-  /* XP control buttons */
-  .title-buttons {
-    display: flex;
-    gap: 2px;
-  }
-
-  .title-btn {
-    width: 20px;
-    height: 20px;
-    background: #d4d0c8;
-    border: 1px solid #404040;
-    font-size: 14px;
-    text-align: center;
-    line-height: 18px;
-    cursor: pointer;
+  .window img {
+    width: 100%;
+    display: block;
     user-select: none;
-  }
-
-  /* Navigation bar */
-  .nav {
-    background: #ece9d8;
-    height: 42px;
-    border-bottom: 1px solid #b4b4b4;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    gap: 10px;
-  }
-
-  .nav-btn {
-    width: 30px;
-    height: 30px;
-    background: #3cb371;
-    border-radius: 50%;
-    border: 2px solid #1f5a1f;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    user-select: none;
-  }
-
-  .address-bar {
-    flex: 1;
-    height: 28px;
-    background: white;
-    border: 2px inset #d0d0d0;
+    pointer-events: none; /* perquè no bloquegi el botó */
   }
 
   /* XP-style top text */
   .xp-text {
-    font-size: 13px;
+    position: absolute;
+    top: 95px;     /* ajusta segons la imatge */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
     color: #3d3d3d;
-    margin: 8px 14px;
     text-shadow: 1px 1px 0 #ffffff;
-  }
-
-  /* XP content area */
-  .content {
-    background: #ffffff;
-    border-top: 1px solid #f1efe2;
-    border-left: 1px solid #f1efe2;
-    border-right: 1px solid #b4b4b4;
-    border-bottom: 1px solid #b4b4b4;
-    margin: 10px;
-    height: calc(100% - 130px);
-    box-shadow: inset 0 0 3px rgba(0,0,0,0.15);
+    pointer-events: none;
   }
 
   /* Dodging button */
@@ -136,25 +67,8 @@
 <audio id="errSound" src="assets/XpErr.mp3" preload="auto"></audio>
 
 <div class="window">
-  <div class="titlebar">
-    <span>Totally Normal Window</span>
-
-    <div class="title-buttons">
-      <div class="title-btn">−</div>
-      <div class="title-btn">□</div>
-      <div class="title-btn">×</div>
-    </div>
-  </div>
-
-  <div class="nav">
-    <div class="nav-btn">←</div>
-    <div class="nav-btn">→</div>
-    <div class="address-bar"></div>
-  </div>
-
+  <img src="assets/window.png" alt="XP Window">
   <div class="xp-text">This is a totally normal button.</div>
-
-  <div class="content"></div>
 </div>
 
 <button id="btn">Click me</button>
@@ -184,7 +98,7 @@
     const distX = Math.abs(e.clientX - (rect.left + rect.width / 2));
     const distY = Math.abs(e.clientY - (rect.top + rect.height / 2));
 
-    const threshold = 70; // very close
+    const threshold = 70;
 
     if (distX < threshold && distY < threshold) {
       moveButton();
