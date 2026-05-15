@@ -2,108 +2,111 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Retro Dodging Button</title>
+<title>Retro Button Challenge</title>
 
 <style>
   body {
     margin: 0;
     height: 100vh;
-    background: black;
-    color: #33ff33;
-    font-family: "Courier New", monospace;
+    background: #f2f2f2;
+    font-family: "Times New Roman", serif;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-
-    /* CRT effect */
-    text-shadow: 0 0 5px #33ff33;
   }
 
-  .scanlines {
-    position: fixed;
-    pointer-events: none;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(
-      to bottom,
-      rgba(0,0,0,0) 0px,
-      rgba(0,0,0,0) 2px,
-      rgba(0,0,0,0.15) 3px
-    );
-    z-index: 10;
+  /* Retro window frame */
+  .window {
+    width: 500px;
+    height: 300px;
+    background: #ffffff;
+    border: 3px solid #000;
+    box-shadow: 6px 6px 0px #000;
+    position: relative;
+    padding-top: 30px;
+  }
+
+  .titlebar {
+    background: #000080;
+    color: white;
+    padding: 5px 10px;
+    font-size: 14px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 20px);
   }
 
   #btn {
     position: absolute;
-    padding: 14px 32px;
-    font-size: 20px;
-    background: black;
-    border: 2px solid #33ff33;
-    color: #33ff33;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 25px;
+    font-size: 18px;
+    background: #d9d9d9;
+    border: 2px solid #000;
     cursor: pointer;
-    transition: left 0.25s ease, top 0.25s ease;
-    box-shadow: 0 0 10px #33ff33;
+    transition: left 0.35s ease, top 0.35s ease;
   }
 
-  #btn:hover {
-    background: #033003;
+  #btn:active {
+    background: #c0c0c0;
   }
 
-  #title {
-    position: absolute;
-    top: 30px;
-    font-size: 22px;
+  .text {
     text-align: center;
-    width: 100%;
+    margin-top: 40px;
+    font-size: 18px;
   }
 </style>
 </head>
 
 <body>
 
-<div id="title">Try clicking the button… if you can.</div>
-
-<button id="btn">Click me</button>
-
-<div class="scanlines"></div>
+<div class="window">
+  <div class="titlebar">Retro Button Challenge</div>
+  <div class="text">Try clicking the button.</div>
+  <button id="btn">Click me</button>
+</div>
 
 <script>
   const btn = document.getElementById("btn");
+  const win = document.querySelector(".window");
 
-  function moveButton() {
-    const maxX = window.innerWidth - btn.offsetWidth;
-    const maxY = window.innerHeight - btn.offsetHeight;
+  function moveButtonSmooth() {
+    const maxX = win.clientWidth - btn.offsetWidth - 10;
+    const maxY = win.clientHeight - btn.offsetHeight - 10;
 
-    const newX = Math.random() * maxX;
-    const newY = Math.random() * maxY;
+    const newX = Math.random() * maxX + 5;
+    const newY = Math.random() * maxY + 35;
 
     btn.style.left = newX + "px";
     btn.style.top = newY + "px";
   }
 
-  // Escape earlier (bigger detection radius)
+  // Escape earlier and smoothly
   document.addEventListener("mousemove", (e) => {
     const rect = btn.getBoundingClientRect();
     const distX = Math.abs(e.clientX - (rect.left + rect.width / 2));
     const distY = Math.abs(e.clientY - (rect.top + rect.height / 2));
 
-    const threshold = 150; // escapes sooner
+    const threshold = 200; // escapes MUCH earlier
 
     if (distX < threshold && distY < threshold) {
-      moveButton();
+      moveButtonSmooth();
     }
   });
 
-  // If clicked, redirect
+  // Redirect if clicked
   btn.addEventListener("click", () => {
     window.location.href = "https://thisisanormalbutton.netlify.app/surprise";
   });
-
-  // Initial center position
-  moveButton();
 </script>
 
 </body>
 </html>
+
+
 
