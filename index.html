@@ -19,13 +19,13 @@
     width: 100%;
     height: 100%;
     background: url("assets/XpLogin.png") center no-repeat;
-    background-size: 100% 100%; /* IMPORTANT: s’ajusta a la pantalla */
+    background-size: 100% 100%;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  /* XP user icon (from your uploaded image) */
+  /* XP user icon */
   #userIcon {
     width: 220px;
     height: 70px;
@@ -33,19 +33,16 @@
     cursor: pointer;
   }
 
-  /* UI hidden until startup sound ends */
-  #ui.hidden {
-    opacity: 0;
-    pointer-events: none;
+  /* BLACK SCREEN after login */
+  #blackScreen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: none;
   }
 
-  #ui.fade-in {
-    opacity: 1;
-    transition: opacity 0.6s ease-in-out;
-    pointer-events: auto;
-  }
-
-  /* Desktop background */
+  /* DESKTOP */
   #desktop {
     width: 100%;
     height: 100%;
@@ -53,6 +50,19 @@
     position: absolute;
     top: 0;
     left: 0;
+    display: none;
+  }
+
+  /* UI (window + button) hidden initially */
+  #ui {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease-in-out;
+  }
+
+  #ui.visible {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   /* Window container */
@@ -119,16 +129,20 @@
   <div id="userIcon"></div>
 </div>
 
+<!-- BLACK SCREEN -->
+<div id="blackScreen"></div>
+
+<!-- DESKTOP -->
+<div id="desktop"></div>
+
 <!-- STARTUP SOUND -->
 <audio id="startupSound" src="assets/XpStartup.wav"></audio>
 
 <!-- ERROR SOUND -->
 <audio id="errSound" src="assets/XpErr.mp3" preload="auto"></audio>
 
-<!-- DESKTOP + WINDOW (hidden initially) -->
-<div id="ui" class="hidden">
-
-  <div id="desktop"></div>
+<!-- WINDOW + BUTTON -->
+<div id="ui">
 
   <div class="window">
     <img src="assets/window.png" alt="XP Window">
@@ -144,31 +158,39 @@
 
 <script>
   const loginScreen = document.getElementById("loginScreen");
-  const userIcon = document.getElementById("userIcon");
+  const blackScreen = document.getElementById("blackScreen");
+  const desktop = document.getElementById("desktop");
   const ui = document.getElementById("ui");
   const startupSound = document.getElementById("startupSound");
   const errSound = document.getElementById("errSound");
   const btn = document.getElementById("btn");
 
-  /* NEW: block button until desktop appears */
   let buttonEnabled = false;
 
   /* --- LOGIN CLICK --- */
   userIcon.onclick = () => {
     loginScreen.style.display = "none";
+    blackScreen.style.display = "block";
+
     startupSound.play();
 
-    // XP startup lasts exactly 4 seconds
+    // 4 seconds of black screen + startup sound
     setTimeout(() => {
-      ui.classList.remove("hidden");
-      ui.classList.add("fade-in");
-      buttonEnabled = true; // NOW the button activates
+      blackScreen.style.display = "none";
+      desktop.style.display = "block";
+
+      // Wait 2 seconds before showing the window
+      setTimeout(() => {
+        ui.classList.add("visible");
+        buttonEnabled = true;
+      }, 2000);
+
     }, 4000);
   };
 
   /* --- BUTTON ESCAPE --- */
   function moveButton() {
-    if (!buttonEnabled) return; // NEW: block movement before desktop
+    if (!buttonEnabled) return;
 
     const maxX = window.innerWidth - btn.offsetWidth;
     const maxY = window.innerHeight - btn.offsetHeight;
@@ -184,7 +206,7 @@
   }
 
   document.addEventListener("mousemove", (e) => {
-    if (!buttonEnabled) return; // NEW: block detection before desktop
+    if (!buttonEnabled) return;
 
     const rect = btn.getBoundingClientRect();
     const distX = Math.abs(e.clientX - (rect.left + rect.width / 2));
@@ -205,6 +227,7 @@
 
 </body>
 </html>
+
 
 
 
