@@ -18,16 +18,17 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background: url("assets/XpLogin.png") center/cover no-repeat;
+    background: url("assets/XpLogin.png") center no-repeat;
+    background-size: 100% 100%; /* IMPORTANT: s’ajusta a la pantalla */
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  /* Fake XP user icon */
+  /* XP user icon (from your uploaded image) */
   #userIcon {
-    width: 180px;
-    height: 180px;
+    width: 220px;
+    height: 220px;
     background: url("assets/XpUser.png") center/cover no-repeat;
     cursor: pointer;
   }
@@ -149,6 +150,9 @@
   const errSound = document.getElementById("errSound");
   const btn = document.getElementById("btn");
 
+  /* NEW: block button until desktop appears */
+  let buttonEnabled = false;
+
   /* --- LOGIN CLICK --- */
   userIcon.onclick = () => {
     loginScreen.style.display = "none";
@@ -158,11 +162,14 @@
     setTimeout(() => {
       ui.classList.remove("hidden");
       ui.classList.add("fade-in");
+      buttonEnabled = true; // NOW the button activates
     }, 4000);
   };
 
   /* --- BUTTON ESCAPE --- */
   function moveButton() {
+    if (!buttonEnabled) return; // NEW: block movement before desktop
+
     const maxX = window.innerWidth - btn.offsetWidth;
     const maxY = window.innerHeight - btn.offsetHeight;
 
@@ -177,6 +184,8 @@
   }
 
   document.addEventListener("mousemove", (e) => {
+    if (!buttonEnabled) return; // NEW: block detection before desktop
+
     const rect = btn.getBoundingClientRect();
     const distX = Math.abs(e.clientX - (rect.left + rect.width / 2));
     const distY = Math.abs(e.clientY - (rect.top + rect.height / 2));
@@ -189,12 +198,14 @@
   });
 
   btn.addEventListener("click", () => {
+    if (!buttonEnabled) return;
     window.location.href = "https://thisisanormalbutton.netlify.app/surprise";
   });
 </script>
 
 </body>
 </html>
+
 
 
 
