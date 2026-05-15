@@ -96,35 +96,20 @@
     white-space: nowrap;
   }
 
-  /* Sidebar reserved for credits */
-  .sidebar {
-    position: absolute;
-    left: 0;
-    top: 70px;
-    width: 140px;
-    height: calc(100% - 90px);
-    background: #e5ecf5;
-    border-right: 1px solid #b4c7d9;
-    padding: 10px;
-    font-size: 12px;
-    color: #6a6a6a;
-    font-style: italic;
-  }
-
-  /* Main content area */
+  /* Main content area (no sidebar now) */
   .window-content {
     position: absolute;
-    left: 150px;
+    left: 20px;
     top: 70px;
     right: 20px;
     bottom: 20px;
     font-size: 14px;
     color: #333;
+    text-align: center;
   }
 
   /* NEW: Prize text (simple, movable) */
   .prize-line {
-    text-align: center;
     font-size: 18px;
     margin-top: 10px;
     color: #1a3e7a;
@@ -175,17 +160,9 @@
     <div class="title-text">Totally normal window</div>
     <div class="search-text">This is a totally normal button.</div>
 
-    <!-- Sidebar reserved for credits -->
-    <div class="sidebar">
-        (Credits coming soon)
-    </div>
-
     <!-- Main content -->
     <div class="window-content">
-
-        <!-- NEW SIMPLE TEXT -->
         <p class="prize-line">⬇Click this button to get a prize⬇</p>
-
     </div>
   </div>
 
@@ -266,4 +243,5 @@
 
 </body>
 </html>
+
 
