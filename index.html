@@ -8,35 +8,73 @@
   body {
     margin: 0;
     height: 100vh;
-    background: #3a6ea5; /* Windows XP blue */
+    background: url("assets/XpBg.png") center/cover no-repeat;
     font-family: Tahoma, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     overflow: hidden;
   }
 
+  /* XP-style window */
   .window {
-    width: 480px;
-    height: 260px;
-    background: #ece9d8;
+    width: 520px;
+    height: 320px;
+    background: #ffffff;
     border: 2px solid #0a246a;
     box-shadow: 0 0 0 3px #3a6ea5, 6px 6px 0px rgba(0,0,0,0.4);
-    position: relative;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 
+  /* Title bar like your screenshot */
   .titlebar {
     background: linear-gradient(to bottom, #1f5ab7, #174a96);
+    height: 28px;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
     color: white;
-    padding: 6px 10px;
-    font-size: 14px;
     font-weight: bold;
+    font-size: 14px;
     border-bottom: 1px solid #0a246a;
+  }
+
+  /* Fake XP navigation bar like screenshot */
+  .nav {
+    background: #ece9d8;
+    height: 40px;
+    border-bottom: 1px solid #b4b4b4;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    gap: 10px;
+  }
+
+  .nav-btn {
+    width: 28px;
+    height: 28px;
+    background: #3cb371;
+    border-radius: 50%;
+    border: 2px solid #1f5a1f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    user-select: none;
+  }
+
+  .address-bar {
+    flex: 1;
+    height: 26px;
+    background: white;
+    border: 2px inset #d0d0d0;
   }
 
   .text {
     text-align: center;
-    margin-top: 35px;
+    margin-top: 40px;
     font-size: 18px;
     color: #000;
   }
@@ -46,7 +84,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    padding: 8px 22px;
+    padding: 10px 25px;
     font-size: 16px;
     background: #e1e1e1;
     border: 2px solid #7f9db9;
@@ -64,33 +102,40 @@
 
 <div class="window">
   <div class="titlebar">Totally Normal Window</div>
+
+  <div class="nav">
+    <div class="nav-btn">←</div>
+    <div class="nav-btn">→</div>
+    <div class="address-bar"></div>
+  </div>
+
   <div class="text">This is a totally normal button.</div>
-  <button id="btn">Click me</button>
 </div>
+
+<button id="btn">Click me</button>
 
 <script>
   const btn = document.getElementById("btn");
-  const win = document.querySelector(".window");
 
   function moveButton() {
-    const maxX = win.clientWidth - btn.offsetWidth - 10;
-    const maxY = win.clientHeight - btn.offsetHeight - 10;
+    const maxX = window.innerWidth - btn.offsetWidth;
+    const maxY = window.innerHeight - btn.offsetHeight;
 
-    const newX = Math.random() * maxX + 5;
-    const newY = Math.random() * maxY + 35;
+    const newX = Math.random() * maxX;
+    const newY = Math.random() * maxY;
 
     btn.style.left = newX + "px";
     btn.style.top = newY + "px";
     btn.style.transform = "translate(0, 0)";
   }
 
-  // Escape earlier, like the first version
+  // Escape like the first version (fast, instant)
   document.addEventListener("mousemove", (e) => {
     const rect = btn.getBoundingClientRect();
     const distX = Math.abs(e.clientX - (rect.left + rect.width / 2));
     const distY = Math.abs(e.clientY - (rect.top + rect.height / 2));
 
-    const threshold = 150; // earlier escape
+    const threshold = 150;
 
     if (distX < threshold && distY < threshold) {
       moveButton();
@@ -105,6 +150,7 @@
 
 </body>
 </html>
+
 
 
 
