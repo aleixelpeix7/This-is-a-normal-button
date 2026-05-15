@@ -13,10 +13,10 @@
     overflow: hidden;
   }
 
-  /* FULL Windows XP window replica */
+  /* XP window outer frame */
   .window {
-    width: 640px;
-    height: 420px;
+    width: 680px;
+    height: 460px;
     background: #ffffff;
     border: 2px solid #0a246a;
     box-shadow: 0 0 0 3px #3a6ea5, 6px 6px 0px rgba(0,0,0,0.4);
@@ -26,30 +26,30 @@
     transform: translate(-50%, -50%);
   }
 
-  /* Title bar identical to XP */
+  /* Title bar */
   .titlebar {
     height: 30px;
     background: linear-gradient(to bottom, #1f5ab7, #174a96);
     display: flex;
     align-items: center;
-    padding: 0 8px;
+    justify-content: space-between;
+    padding: 0 6px;
     color: white;
     font-weight: bold;
     font-size: 14px;
     border-bottom: 1px solid #0a246a;
-    justify-content: space-between;
   }
 
   /* XP control buttons */
   .title-buttons {
     display: flex;
-    gap: 4px;
+    gap: 2px;
   }
 
   .title-btn {
     width: 20px;
     height: 20px;
-    background: #dcdcdc;
+    background: #d4d0c8;
     border: 1px solid #404040;
     font-size: 14px;
     text-align: center;
@@ -58,7 +58,7 @@
     user-select: none;
   }
 
-  /* XP navigation bar */
+  /* Navigation bar */
   .nav {
     background: #ece9d8;
     height: 42px;
@@ -91,14 +91,23 @@
     border: 2px inset #d0d0d0;
   }
 
-  .text {
-    text-align: center;
-    margin-top: 40px;
+  /* XP content area */
+  .content {
+    background: #ffffff;
+    border-top: 1px solid #f1efe2;
+    border-left: 1px solid #f1efe2;
+    border-right: 1px solid #b4b4b4;
+    border-bottom: 1px solid #b4b4b4;
+    margin: 10px;
+    height: calc(100% - 110px);
+    box-shadow: inset 0 0 3px rgba(0,0,0,0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 18px;
-    color: #000;
   }
 
-  /* The dodging button */
+  /* Dodging button */
   #btn {
     position: absolute;
     left: 50%;
@@ -120,6 +129,8 @@
 
 <body>
 
+<audio id="errSound" src="assets/XpErr.mp3" preload="auto"></audio>
+
 <div class="window">
   <div class="titlebar">
     <span>Totally Normal Window</span>
@@ -137,13 +148,16 @@
     <div class="address-bar"></div>
   </div>
 
-  <div class="text">This is a totally normal button.</div>
+  <div class="content">
+    This is a totally normal button.
+  </div>
 </div>
 
 <button id="btn">Click me</button>
 
 <script>
   const btn = document.getElementById("btn");
+  const errSound = document.getElementById("errSound");
 
   function moveButton() {
     const maxX = window.innerWidth - btn.offsetWidth;
@@ -155,22 +169,24 @@
     btn.style.left = newX + "px";
     btn.style.top = newY + "px";
     btn.style.transform = "translate(0, 0)";
+
+    errSound.currentTime = 0;
+    errSound.play();
   }
 
-  // Escape only when REALLY close
+  // Escape only when VERY close
   document.addEventListener("mousemove", (e) => {
     const rect = btn.getBoundingClientRect();
     const distX = Math.abs(e.clientX - (rect.left + rect.width / 2));
     const distY = Math.abs(e.clientY - (rect.top + rect.height / 2));
 
-    const threshold = 90; // MUCH closer than before
+    const threshold = 70; // very close
 
     if (distX < threshold && distY < threshold) {
       moveButton();
     }
   });
 
-  // Redirect if clicked
   btn.addEventListener("click", () => {
     window.location.href = "https://thisisanormalbutton.netlify.app/surprise";
   });
@@ -178,6 +194,7 @@
 
 </body>
 </html>
+
 
 
 
