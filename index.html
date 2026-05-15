@@ -44,15 +44,14 @@
     display: none;
   }
 
-  /* UI (window + button) hidden initially */
+  /* UI (window + button) hidden initially — NO FADE */
   #ui {
-    opacity: 0;
+    display: none;
     pointer-events: none;
-    transition: opacity 0.6s ease-in-out;
   }
 
   #ui.visible {
-    opacity: 1;
+    display: block;
     pointer-events: auto;
   }
 
@@ -126,6 +125,9 @@
 <!-- STARTUP SOUND -->
 <audio id="startupSound" src="assets/XpStartup.wav"></audio>
 
+<!-- LOGON SOUND (NEW) -->
+<audio id="logonSound" src="assets/xplogon.wav"></audio>
+
 <!-- ERROR SOUND -->
 <audio id="errSound" src="assets/XpErr.mp3" preload="auto"></audio>
 
@@ -149,6 +151,7 @@
   const desktop = document.getElementById("desktop");
   const ui = document.getElementById("ui");
   const startupSound = document.getElementById("startupSound");
+  const logonSound = document.getElementById("logonSound");
   const errSound = document.getElementById("errSound");
   const btn = document.getElementById("btn");
 
@@ -156,22 +159,22 @@
 
   /* --- LOGIN CLICK --- */
   userIcon.onclick = () => {
-    // Hide login screen
     loginScreen.style.display = "none";
-
-    // Show desktop immediately
     desktop.style.display = "block";
 
-    // Play XP startup sound
     startupSound.play();
 
-    // Wait 4 seconds (sound duration)
+    // 4s of startup sound
     setTimeout(() => {
 
-      // Then wait 2 more seconds with only the desktop visible
+      // 2s of desktop alone
       setTimeout(() => {
         ui.classList.add("visible");
         buttonEnabled = true;
+
+        // NEW: play logon sound when window appears
+        logonSound.play();
+
       }, 2000);
 
     }, 4000);
@@ -216,6 +219,7 @@
 
 </body>
 </html>
+
 
 
 
