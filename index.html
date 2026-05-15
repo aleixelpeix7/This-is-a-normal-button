@@ -96,6 +96,60 @@
     white-space: nowrap;
   }
 
+  /* Sidebar reserved for credits */
+  .sidebar {
+    position: absolute;
+    left: 0;
+    top: 70px;
+    width: 140px;
+    height: calc(100% - 90px);
+    background: #e5ecf5;
+    border-right: 1px solid #b4c7d9;
+    padding: 10px;
+    font-size: 12px;
+    color: #6a6a6a;
+    font-style: italic;
+  }
+
+  /* Main content area */
+  .window-content {
+    position: absolute;
+    left: 150px;
+    top: 70px;
+    right: 20px;
+    bottom: 20px;
+    font-size: 14px;
+    color: #333;
+  }
+
+  /* Slightly colorful XP header box */
+  .info-box {
+    background: linear-gradient(to bottom, #fffbd1, #fff4a8);
+    border: 1px solid #e6d98c;
+    padding: 10px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    border-radius: 4px;
+  }
+
+  /* Prize text */
+  .prize-text {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 10px;
+    color: #1a3e7a;
+    font-weight: bold;
+  }
+
+  /* Arrow container */
+  .arrows {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 32px;
+    color: #2b5797; /* XP blue */
+    font-weight: bold;
+  }
+
   /* Dodging button */
   #btn {
     position: absolute;
@@ -125,7 +179,7 @@
 <!-- STARTUP SOUND -->
 <audio id="startupSound" src="assets/XpStartup.wav"></audio>
 
-<!-- LOGON SOUND (NEW) -->
+<!-- LOGON SOUND -->
 <audio id="logonSound" src="assets/xplogon.wav"></audio>
 
 <!-- ERROR SOUND -->
@@ -138,8 +192,29 @@
     <img src="assets/window.png" alt="XP Window">
 
     <div class="title-text">Totally normal window</div>
-
     <div class="search-text">This is a totally normal button.</div>
+
+    <!-- Sidebar reserved for credits -->
+    <div class="sidebar">
+        (Credits coming soon)
+    </div>
+
+    <!-- Main content -->
+    <div class="window-content">
+
+        <div class="info-box">
+            🎁 Click this button to get a prize!
+        </div>
+
+        <p class="prize-text">
+            Totally safe. Totally normal. Totally worth it.
+        </p>
+
+        <div class="arrows">
+            ↓↓↓
+        </div>
+
+    </div>
   </div>
 
   <button id="btn">Click me</button>
@@ -172,7 +247,7 @@
         ui.classList.add("visible");
         buttonEnabled = true;
 
-        // NEW: play logon sound when window appears
+        // Play logon sound when window appears
         logonSound.play();
 
       }, 2000);
@@ -219,20 +294,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
