@@ -13,10 +13,10 @@
     overflow: hidden;
   }
 
-  /* XP-style window */
+  /* FULL Windows XP window replica */
   .window {
-    width: 520px;
-    height: 320px;
+    width: 640px;
+    height: 420px;
     background: #ffffff;
     border: 2px solid #0a246a;
     box-shadow: 0 0 0 3px #3a6ea5, 6px 6px 0px rgba(0,0,0,0.4);
@@ -26,23 +26,42 @@
     transform: translate(-50%, -50%);
   }
 
-  /* Title bar like your screenshot */
+  /* Title bar identical to XP */
   .titlebar {
+    height: 30px;
     background: linear-gradient(to bottom, #1f5ab7, #174a96);
-    height: 28px;
     display: flex;
     align-items: center;
-    padding-left: 8px;
+    padding: 0 8px;
     color: white;
     font-weight: bold;
     font-size: 14px;
     border-bottom: 1px solid #0a246a;
+    justify-content: space-between;
   }
 
-  /* Fake XP navigation bar like screenshot */
+  /* XP control buttons */
+  .title-buttons {
+    display: flex;
+    gap: 4px;
+  }
+
+  .title-btn {
+    width: 20px;
+    height: 20px;
+    background: #dcdcdc;
+    border: 1px solid #404040;
+    font-size: 14px;
+    text-align: center;
+    line-height: 18px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* XP navigation bar */
   .nav {
     background: #ece9d8;
-    height: 40px;
+    height: 42px;
     border-bottom: 1px solid #b4b4b4;
     display: flex;
     align-items: center;
@@ -51,8 +70,8 @@
   }
 
   .nav-btn {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
     background: #3cb371;
     border-radius: 50%;
     border: 2px solid #1f5a1f;
@@ -61,13 +80,13 @@
     align-items: center;
     color: white;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 18px;
     user-select: none;
   }
 
   .address-bar {
     flex: 1;
-    height: 26px;
+    height: 28px;
     background: white;
     border: 2px inset #d0d0d0;
   }
@@ -79,6 +98,7 @@
     color: #000;
   }
 
+  /* The dodging button */
   #btn {
     position: absolute;
     left: 50%;
@@ -101,7 +121,15 @@
 <body>
 
 <div class="window">
-  <div class="titlebar">Totally Normal Window</div>
+  <div class="titlebar">
+    <span>Totally Normal Window</span>
+
+    <div class="title-buttons">
+      <div class="title-btn">−</div>
+      <div class="title-btn">□</div>
+      <div class="title-btn">×</div>
+    </div>
+  </div>
 
   <div class="nav">
     <div class="nav-btn">←</div>
@@ -129,13 +157,13 @@
     btn.style.transform = "translate(0, 0)";
   }
 
-  // Escape like the first version (fast, instant)
+  // Escape only when REALLY close
   document.addEventListener("mousemove", (e) => {
     const rect = btn.getBoundingClientRect();
     const distX = Math.abs(e.clientX - (rect.left + rect.width / 2));
     const distY = Math.abs(e.clientY - (rect.top + rect.height / 2));
 
-    const threshold = 150;
+    const threshold = 90; // MUCH closer than before
 
     if (distX < threshold && distY < threshold) {
       moveButton();
@@ -150,6 +178,7 @@
 
 </body>
 </html>
+
 
 
 
