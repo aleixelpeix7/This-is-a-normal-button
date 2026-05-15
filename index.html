@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Totally Normal Button</title>
+<title>Totally normal window</title>
 
 <style>
   body {
@@ -29,13 +29,25 @@
     user-select: none;
   }
 
-  /* XP-style top text */
-  .xp-text {
+  /* Title text (blue bar) */
+  .title-text {
     position: absolute;
-    top: 105px; /* ajusta segons la imatge */
+    top: 7px; /* ajusta segons la imatge */
     left: 50%;
     transform: translateX(-50%);
     font-size: 14px;
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #00000055;
+    pointer-events: none;
+  }
+
+  /* Search bar text (red area in your screenshot) */
+  .search-text {
+    position: absolute;
+    top: 78px; /* ajusta segons la imatge */
+    left: 160px; /* ajusta segons la imatge */
+    font-size: 13px;
     color: #3d3d3d;
     text-shadow: 1px 1px 0 #ffffff;
     pointer-events: none;
@@ -67,7 +79,12 @@
 
 <div class="window">
   <img src="assets/window.png" alt="XP Window">
-  <div class="xp-text">This is a totally normal button.</div>
+
+  <!-- Title bar text -->
+  <div class="title-text">Totally normal window</div>
+
+  <!-- Search bar text -->
+  <div class="search-text">This is a totally normal button.</div>
 </div>
 
 <button id="btn">Click me</button>
@@ -111,6 +128,7 @@
 
 </body>
 </html>
+
 
 
 
