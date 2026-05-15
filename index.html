@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Retro Button Challenge</title>
+<title>Totally Normal Button</title>
 
 <style>
   body {
     margin: 0;
     height: 100vh;
-    background: #f2f2f2;
+    background: #e5e5e5;
     font-family: "Times New Roman", serif;
     display: flex;
     justify-content: center;
@@ -16,10 +16,9 @@
     overflow: hidden;
   }
 
-  /* Retro window frame */
   .window {
-    width: 500px;
-    height: 300px;
+    width: 480px;
+    height: 260px;
     background: #ffffff;
     border: 3px solid #000;
     box-shadow: 6px 6px 0px #000;
@@ -38,6 +37,12 @@
     width: calc(100% - 20px);
   }
 
+  .text {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 18px;
+  }
+
   #btn {
     position: absolute;
     left: 50%;
@@ -54,20 +59,14 @@
   #btn:active {
     background: #c0c0c0;
   }
-
-  .text {
-    text-align: center;
-    margin-top: 40px;
-    font-size: 18px;
-  }
 </style>
 </head>
 
 <body>
 
 <div class="window">
-  <div class="titlebar">Retro Button Challenge</div>
-  <div class="text">Try clicking the button.</div>
+  <div class="titlebar">Totally Normal Window</div>
+  <div class="text">This is a totally normal button.</div>
   <button id="btn">Click me</button>
 </div>
 
@@ -86,13 +85,13 @@
     btn.style.top = newY + "px";
   }
 
-  // Escape earlier and smoothly
+  // Escape earlier, smoothly
   document.addEventListener("mousemove", (e) => {
     const rect = btn.getBoundingClientRect();
     const distX = Math.abs(e.clientX - (rect.left + rect.width / 2));
     const distY = Math.abs(e.clientY - (rect.top + rect.height / 2));
 
-    const threshold = 200; // escapes MUCH earlier
+    const threshold = 180; // smooth early escape
 
     if (distX < threshold && distY < threshold) {
       moveButtonSmooth();
@@ -107,6 +106,7 @@
 
 </body>
 </html>
+
 
 
 
