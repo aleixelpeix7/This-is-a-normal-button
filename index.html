@@ -8,8 +8,8 @@
   body {
     margin: 0;
     height: 100vh;
-    background: #e5e5e5;
-    font-family: "Times New Roman", serif;
+    background: #3a6ea5; /* Windows XP blue */
+    font-family: Tahoma, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,28 +19,26 @@
   .window {
     width: 480px;
     height: 260px;
-    background: #ffffff;
-    border: 3px solid #000;
-    box-shadow: 6px 6px 0px #000;
+    background: #ece9d8;
+    border: 2px solid #0a246a;
+    box-shadow: 0 0 0 3px #3a6ea5, 6px 6px 0px rgba(0,0,0,0.4);
     position: relative;
-    padding-top: 30px;
   }
 
   .titlebar {
-    background: #000080;
+    background: linear-gradient(to bottom, #1f5ab7, #174a96);
     color: white;
-    padding: 5px 10px;
+    padding: 6px 10px;
     font-size: 14px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: calc(100% - 20px);
+    font-weight: bold;
+    border-bottom: 1px solid #0a246a;
   }
 
   .text {
     text-align: center;
-    margin-top: 40px;
+    margin-top: 35px;
     font-size: 18px;
+    color: #000;
   }
 
   #btn {
@@ -48,16 +46,16 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    padding: 10px 25px;
-    font-size: 18px;
-    background: #d9d9d9;
-    border: 2px solid #000;
+    padding: 8px 22px;
+    font-size: 16px;
+    background: #e1e1e1;
+    border: 2px solid #7f9db9;
+    border-radius: 3px;
     cursor: pointer;
-    transition: left 0.35s ease, top 0.35s ease;
   }
 
   #btn:active {
-    background: #c0c0c0;
+    background: #d0d0d0;
   }
 </style>
 </head>
@@ -74,7 +72,7 @@
   const btn = document.getElementById("btn");
   const win = document.querySelector(".window");
 
-  function moveButtonSmooth() {
+  function moveButton() {
     const maxX = win.clientWidth - btn.offsetWidth - 10;
     const maxY = win.clientHeight - btn.offsetHeight - 10;
 
@@ -83,18 +81,19 @@
 
     btn.style.left = newX + "px";
     btn.style.top = newY + "px";
+    btn.style.transform = "translate(0, 0)";
   }
 
-  // Escape earlier, smoothly
+  // Escape earlier, like the first version
   document.addEventListener("mousemove", (e) => {
     const rect = btn.getBoundingClientRect();
     const distX = Math.abs(e.clientX - (rect.left + rect.width / 2));
     const distY = Math.abs(e.clientY - (rect.top + rect.height / 2));
 
-    const threshold = 180; // smooth early escape
+    const threshold = 150; // earlier escape
 
     if (distX < threshold && distY < threshold) {
-      moveButtonSmooth();
+      moveButton();
     }
   });
 
@@ -106,6 +105,7 @@
 
 </body>
 </html>
+
 
 
 
