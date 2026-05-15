@@ -2,28 +2,56 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Totally normal window</title>
+<title>Windows XP Login</title>
 
 <style>
   body {
     margin: 0;
     height: 100vh;
-    background: url("assets/XpBg.png") center/cover no-repeat;
+    background: #000;
     font-family: Tahoma, sans-serif;
     overflow: hidden;
   }
 
-  /* Hidden by default */
-  .hidden {
+  /* LOGIN SCREEN */
+  #loginScreen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url("assets/XpLogin.png") center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Fake XP user icon */
+  #userIcon {
+    width: 180px;
+    height: 180px;
+    background: url("assets/XpUser.png") center/cover no-repeat;
+    cursor: pointer;
+  }
+
+  /* UI hidden until startup sound ends */
+  #ui.hidden {
     opacity: 0;
     pointer-events: none;
   }
 
-  /* Fade-in animation */
-  .fade-in {
+  #ui.fade-in {
     opacity: 1;
     transition: opacity 0.6s ease-in-out;
     pointer-events: auto;
+  }
+
+  /* Desktop background */
+  #desktop {
+    width: 100%;
+    height: 100%;
+    background: url("assets/XpBg.png") center/cover no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
   /* Window container */
@@ -80,23 +108,26 @@
     border-radius: 3px;
     cursor: pointer;
   }
-
-  #btn:active {
-    background: #d0d0d0;
-  }
 </style>
 </head>
 
 <body>
 
-<!-- Startup sound -->
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div id="userIcon"></div>
+</div>
+
+<!-- STARTUP SOUND -->
 <audio id="startupSound" src="assets/XpStartup.wav"></audio>
 
-<!-- Error sound -->
+<!-- ERROR SOUND -->
 <audio id="errSound" src="assets/XpErr.mp3" preload="auto"></audio>
 
-<!-- Everything starts hidden -->
+<!-- DESKTOP + WINDOW (hidden initially) -->
 <div id="ui" class="hidden">
+
+  <div id="desktop"></div>
 
   <div class="window">
     <img src="assets/window.png" alt="XP Window">
@@ -111,16 +142,19 @@
 </div>
 
 <script>
+  const loginScreen = document.getElementById("loginScreen");
+  const userIcon = document.getElementById("userIcon");
   const ui = document.getElementById("ui");
   const startupSound = document.getElementById("startupSound");
   const errSound = document.getElementById("errSound");
   const btn = document.getElementById("btn");
 
-  /* --- INTRO XP --- */
-  window.onload = () => {
+  /* --- LOGIN CLICK --- */
+  userIcon.onclick = () => {
+    loginScreen.style.display = "none";
     startupSound.play();
 
-    // Duració exacta del so XP Startup: 4.0s
+    // XP startup lasts exactly 4 seconds
     setTimeout(() => {
       ui.classList.remove("hidden");
       ui.classList.add("fade-in");
@@ -137,7 +171,6 @@
 
     btn.style.left = newX + "px";
     btn.style.top = newY + "px";
-    btn.style.transform = "translate(0, 0)";
 
     errSound.currentTime = 0;
     errSound.play();
@@ -162,6 +195,7 @@
 
 </body>
 </html>
+
 
 
 
