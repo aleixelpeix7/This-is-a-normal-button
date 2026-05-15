@@ -122,31 +122,12 @@
     color: #333;
   }
 
-  /* Slightly colorful XP header box */
-  .info-box {
-    background: linear-gradient(to bottom, #fffbd1, #fff4a8);
-    border: 1px solid #e6d98c;
-    padding: 10px;
-    margin-bottom: 12px;
-    font-size: 13px;
-    border-radius: 4px;
-  }
-
-  /* Prize text */
-  .prize-text {
+  /* NEW: Prize text (simple, movable) */
+  .prize-line {
     text-align: center;
     font-size: 18px;
     margin-top: 10px;
     color: #1a3e7a;
-    font-weight: bold;
-  }
-
-  /* Arrow container */
-  .arrows {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 32px;
-    color: #2b5797; /* XP blue */
     font-weight: bold;
   }
 
@@ -202,17 +183,8 @@
     <!-- Main content -->
     <div class="window-content">
 
-        <div class="info-box">
-            🎁 Click this button to get a prize!
-        </div>
-
-        <p class="prize-text">
-            Totally safe. Totally normal. Totally worth it.
-        </p>
-
-        <div class="arrows">
-            ↓↓↓
-        </div>
+        <!-- NEW SIMPLE TEXT -->
+        <p class="prize-line">⬇Click this button to get a prize⬇</p>
 
     </div>
   </div>
@@ -294,3 +266,4 @@
 
 </body>
 </html>
+
