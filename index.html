@@ -25,21 +25,12 @@
     align-items: center;
   }
 
-  /* XP user icon */
+  /* XP user icon (rectangular) */
   #userIcon {
     width: 220px;
     height: 70px;
     background: url("assets/XpUser.png") center/cover no-repeat;
     cursor: pointer;
-  }
-
-  /* BLACK SCREEN after login */
-  #blackScreen {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: black;
-    display: none;
   }
 
   /* DESKTOP */
@@ -129,9 +120,6 @@
   <div id="userIcon"></div>
 </div>
 
-<!-- BLACK SCREEN -->
-<div id="blackScreen"></div>
-
 <!-- DESKTOP -->
 <div id="desktop"></div>
 
@@ -158,7 +146,6 @@
 
 <script>
   const loginScreen = document.getElementById("loginScreen");
-  const blackScreen = document.getElementById("blackScreen");
   const desktop = document.getElementById("desktop");
   const ui = document.getElementById("ui");
   const startupSound = document.getElementById("startupSound");
@@ -169,17 +156,19 @@
 
   /* --- LOGIN CLICK --- */
   userIcon.onclick = () => {
+    // Hide login screen
     loginScreen.style.display = "none";
-    blackScreen.style.display = "block";
 
+    // Show desktop immediately
+    desktop.style.display = "block";
+
+    // Play XP startup sound
     startupSound.play();
 
-    // 4 seconds of black screen + startup sound
+    // Wait 4 seconds (sound duration)
     setTimeout(() => {
-      blackScreen.style.display = "none";
-      desktop.style.display = "block";
 
-      // Wait 2 seconds before showing the window
+      // Then wait 2 more seconds with only the desktop visible
       setTimeout(() => {
         ui.classList.add("visible");
         buttonEnabled = true;
@@ -227,6 +216,7 @@
 
 </body>
 </html>
+
 
 
 
