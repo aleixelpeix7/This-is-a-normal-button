@@ -1,113 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Dodging Button</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<meta charset="UTF-8">
+<title>Retro Dodging Button</title>
 
-    body {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #111827;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: #e5e7eb;
-      overflow: hidden;
-    }
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: black;
+    color: #33ff33;
+    font-family: "Courier New", monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 
-    #container {
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
+    /* CRT effect */
+    text-shadow: 0 0 5px #33ff33;
+  }
 
-    #trickyButton {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      padding: 14px 32px;
-      font-size: 18px;
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      background: #3b82f6;
-      color: white;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-      transition: transform 0.1s ease-out, background 0.2s;
-    }
+  .scanlines {
+    position: fixed;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0px,
+      rgba(0,0,0,0) 2px,
+      rgba(0,0,0,0.15) 3px
+    );
+    z-index: 10;
+  }
 
-    #trickyButton:hover {
-      background: #2563eb;
-    }
+  #btn {
+    position: absolute;
+    padding: 14px 32px;
+    font-size: 20px;
+    background: black;
+    border: 2px solid #33ff33;
+    color: #33ff33;
+    cursor: pointer;
+    transition: left 0.25s ease, top 0.25s ease;
+    box-shadow: 0 0 10px #33ff33;
+  }
 
-    #message {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 14px;
-      color: #9ca3af;
-      text-align: center;
-      padding: 6px 12px;
-      background: rgba(15,23,42,0.8);
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.4);
-    }
-  </style>
+  #btn:hover {
+    background: #033003;
+  }
+
+  #title {
+    position: absolute;
+    top: 30px;
+    font-size: 22px;
+    text-align: center;
+    width: 100%;
+  }
+</style>
 </head>
+
 <body>
-  <div id="container">
-    <button id="trickyButton">Click me</button>
-    <div id="message">Try to click the button… if you can.</div>
-  </div>
 
-  <script>
-    const button = document.getElementById('trickyButton');
-    const container = document.getElementById('container');
+<div id="title">Try clicking the button… if you can.</div>
 
-    function moveButton() {
-      const containerRect = container.getBoundingClientRect();
-      const buttonRect = button.getBoundingClientRect();
+<button id="btn">Click me</button>
 
-      const maxX = containerRect.width - buttonRect.width;
-      const maxY = containerRect.height - buttonRect.height;
+<div class="scanlines"></div>
 
-      const randomX = Math.random() * maxX;
-      const randomY = Math.random() * maxY;
+<script>
+  const btn = document.getElementById("btn");
 
-      button.style.left = randomX + 'px';
-      button.style.top = randomY + 'px';
-      button.style.transform = 'translate(0, 0)';
-    }
+  function moveButton() {
+    const maxX = window.innerWidth - btn.offsetWidth;
+    const maxY = window.innerHeight - btn.offsetHeight;
 
-    // Move when the mouse gets close
-    button.addEventListener('mousemove', (e) => {
-      const rect = button.getBoundingClientRect();
-      const distanceX = Math.abs(e.clientX - (rect.left + rect.width / 2));
-      const distanceY = Math.abs(e.clientY - (rect.top + rect.height / 2));
-      const threshold = 60; // how close you can get before it runs away
+    const newX = Math.random() * maxX;
+    const newY = Math.random() * maxY;
 
-      if (distanceX < threshold && distanceY < threshold) {
-        moveButton();
-      }
-    });
+    btn.style.left = newX + "px";
+    btn.style.top = newY + "px";
+  }
 
-    // Just in case someone actually clicks it
-    button.addEventListener('click', () => {
-      alert("Wow, you actually clicked it!");
-    });
+  // Escape earlier (bigger detection radius)
+  document.addEventListener("mousemove", (e) => {
+    const rect = btn.getBoundingClientRect();
+    const distX = Math.abs(e.clientX - (rect.left + rect.width / 2));
+    const distY = Math.abs(e.clientY - (rect.top + rect.height / 2));
 
-    // Keep it inside the window on resize
-    window.addEventListener('resize', () => {
+    const threshold = 150; // escapes sooner
+
+    if (distX < threshold && distY < threshold) {
       moveButton();
-    });
-  </script>
+    }
+  });
+
+  // If clicked, redirect
+  btn.addEventListener("click", () => {
+    window.location.href = "https://thisisanormalbutton.netlify.app/surprise";
+  });
+
+  // Initial center position
+  moveButton();
+</script>
+
 </body>
 </html>
+
