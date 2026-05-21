@@ -13,6 +13,7 @@
     overflow: hidden;
   }
 
+  /* LOGIN SCREEN */
   #loginScreen {
     position: absolute;
     width: 100%;
@@ -24,6 +25,7 @@
     align-items: center;
   }
 
+  /* XP user icon (rectangular) */
   #userIcon {
     width: 220px;
     height: 70px;
@@ -31,17 +33,18 @@
     cursor: pointer;
   }
 
+  /* DESKTOP */
   #desktop {
     width: 100%;
     height: 100%;
-    background: url("assets/XpBg.png") center no-repeat;
-    background-size: 100% 100%;
+    background: url("assets/XpBg.png") center/cover no-repeat;
     position: absolute;
     top: 0;
     left: 0;
     display: none;
   }
 
+  /* UI (window + button) hidden initially — NO FADE */
   #ui {
     display: none;
     pointer-events: none;
@@ -52,6 +55,7 @@
     pointer-events: auto;
   }
 
+  /* Window container */
   .window {
     position: absolute;
     left: 50%;
@@ -67,6 +71,7 @@
     user-select: none;
   }
 
+  /* Title bar text */
   .title-text {
     position: absolute;
     top: 7px;
@@ -76,8 +81,10 @@
     color: white;
     font-weight: bold;
     text-shadow: 1px 1px 0 #00000055;
+    pointer-events: none;
   }
 
+  /* Search bar text */
   .search-text {
     position: absolute;
     top: 45px;
@@ -85,18 +92,23 @@
     font-size: 13px;
     color: #3d3d3d;
     text-shadow: 1px 1px 0 #ffffff;
+    pointer-events: none;
     white-space: nowrap;
   }
 
+  /* Main content area (no sidebar now) */
   .window-content {
     position: absolute;
     left: 20px;
     top: 70px;
     right: 20px;
     bottom: 20px;
+    font-size: 14px;
+    color: #333;
     text-align: center;
   }
 
+  /* NEW: Prize text (simple, movable) */
   .prize-line {
     position: absolute;
     top: 45px;
@@ -104,21 +116,11 @@
     font-size: 20px;
     color: #3d3d3d;
     text-shadow: 1px 1px 0 #ffffff;
-  }
-
-  .stats-line {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 16px;
-    color: #3d3d3d;
-    text-shadow: 1px 1px 0 #ffffff;
+    pointer-events: none;
     white-space: nowrap;
   }
 
-  #visitorText { top: 110px; }
-  #clicksText { top: 140px; }
-
+  /* Dodging button */
   #btn {
     position: absolute;
     left: 770px;
@@ -136,16 +138,24 @@
 
 <body>
 
+<!-- LOGIN SCREEN -->
 <div id="loginScreen">
   <div id="userIcon"></div>
 </div>
 
+<!-- DESKTOP -->
 <div id="desktop"></div>
 
+<!-- STARTUP SOUND -->
 <audio id="startupSound" src="assets/XpStartup.wav"></audio>
+
+<!-- LOGON SOUND -->
 <audio id="logonSound" src="assets/xplogon.wav"></audio>
+
+<!-- ERROR SOUND -->
 <audio id="errSound" src="assets/XpErr.mp3" preload="auto"></audio>
 
+<!-- WINDOW + BUTTON -->
 <div id="ui">
 
   <div class="window">
@@ -154,11 +164,9 @@
     <div class="title-text">Totally normal window</div>
     <div class="search-text">This is a totally normal button.</div>
 
+    <!-- Main content -->
     <div class="window-content">
         <p class="prize-line">⬇Click this button to get a prize⬇</p>
-
-        <p id="visitorText" class="stats-line">Loading visitor number...</p>
-        <p id="clicksText" class="stats-line">Loading click stats...</p>
     </div>
   </div>
 
@@ -167,29 +175,6 @@
 </div>
 
 <script>
-  async function registerVisit() {
-    const res = await fetch("/.netlify/functions/countVisit");
-    const data = await res.json();
-    return data.total;
-  }
-
-  async function registerClick() {
-    const res = await fetch("/.netlify/functions/countClick");
-    const data = await res.json();
-    return data.clicks;
-  }
-
-  async function loadStats() {
-    const visits = await fetch("/.netlify/functions/countVisit").then(r => r.json());
-    const clicks = await fetch("/.netlify/functions/countClick").then(r => r.json());
-
-    document.getElementById("visitorText").textContent =
-      `You are visitor number ${visits.total}`;
-
-    document.getElementById("clicksText").textContent =
-      `${clicks.clicks} people have managed to click`;
-  }
-
   const loginScreen = document.getElementById("loginScreen");
   const desktop = document.getElementById("desktop");
   const ui = document.getElementById("ui");
@@ -197,36 +182,44 @@
   const logonSound = document.getElementById("logonSound");
   const errSound = document.getElementById("errSound");
   const btn = document.getElementById("btn");
-  const userIcon = document.getElementById("userIcon");
 
   let buttonEnabled = false;
 
-  userIcon.onclick = async () => {
+  /* --- LOGIN CLICK --- */
+  userIcon.onclick = () => {
     loginScreen.style.display = "none";
     desktop.style.display = "block";
 
-    await registerVisit();
-    await loadStats();
-
     startupSound.play();
 
+    // 4s of startup sound
     setTimeout(() => {
+
+      // 2s of desktop alone
       setTimeout(() => {
         ui.classList.add("visible");
         buttonEnabled = true;
+
+        // Play logon sound when window appears
         logonSound.play();
+
       }, 2000);
+
     }, 4000);
   };
 
+  /* --- BUTTON ESCAPE --- */
   function moveButton() {
     if (!buttonEnabled) return;
 
     const maxX = window.innerWidth - btn.offsetWidth;
     const maxY = window.innerHeight - btn.offsetHeight;
 
-    btn.style.left = Math.random() * maxX + "px";
-    btn.style.top = Math.random() * maxY + "px";
+    const newX = Math.random() * maxX;
+    const newY = Math.random() * maxY;
+
+    btn.style.left = newX + "px";
+    btn.style.top = newY + "px";
 
     errSound.currentTime = 0;
     errSound.play();
@@ -239,19 +232,17 @@
     const distX = Math.abs(e.clientX - (rect.left + rect.width / 2));
     const distY = Math.abs(e.clientY - (rect.top + rect.height / 2));
 
-    if (distX < 70 && distY < 70) moveButton();
+    const threshold = 70;
+
+    if (distX < threshold && distY < threshold) {
+      moveButton();
+    }
   });
 
-  btn.addEventListener("click", async () => {
+  btn.addEventListener("click", () => {
     if (!buttonEnabled) return;
-
-    await registerClick();
-    await loadStats();
-
     window.location.href = "https://thisisanormalbutton.netlify.app/surprise";
   });
-
-  loadStats();
 </script>
 
 </body>
